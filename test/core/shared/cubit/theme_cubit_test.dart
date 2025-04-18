@@ -13,7 +13,9 @@ void main() {
   setUp(() {
     mockStorage = MockStorage();
     HydratedBloc.storage = mockStorage;
-    when(() => mockStorage.write(any(), any())).thenAnswer((_) async => Future.value());
+    when(
+      () => mockStorage.write(any(), any()),
+    ).thenAnswer((_) async => Future.value());
     themeCubit = ThemeCubit();
   });
 
@@ -26,50 +28,75 @@ void main() {
     expect(themeCubit.state, equals(ThemeMode.system));
   });
 
-  test('should emits ThemeMode.light when toggling from ThemeMode.dark', () {
-    // arrange
-    themeCubit.emit(ThemeMode.dark);
+  group("toogleThemeMode", () {
+    test('should emits ThemeMode.light when toggling from ThemeMode.dark', () {
+      // arrange
+      themeCubit.emit(ThemeMode.dark);
 
-    // act
-    themeCubit.toggleThemeMode();
+      // act
+      themeCubit.toggleThemeMode();
 
-    // assert
-    expect(themeCubit.state, equals(ThemeMode.light));
+      // assert
+      expect(themeCubit.state, equals(ThemeMode.light));
+    });
+
+    test('should emits ThemeMode.dark when toggling from ThemeMode.light', () {
+      // arrange
+      themeCubit.emit(ThemeMode.light);
+
+      // act
+      themeCubit.toggleThemeMode();
+
+      // assert
+      expect(themeCubit.state, equals(ThemeMode.dark));
+    });
+
+    test('should saves state to storage on state change', () {
+      // arrange
+      themeCubit.emit(ThemeMode.dark);
+      
+      // act
+      themeCubit.toggleThemeMode();
+
+      // assert
+      verify(
+        () => mockStorage.write('ThemeCubit', {
+          'theme_mode': ThemeMode.light.index,
+        }),
+      ).called(1);
+    });
   });
 
-  test('should emits ThemeMode.dark when toggling from ThemeMode.light', () {
-    // arrange
-    themeCubit.emit(ThemeMode.light);
+  group("selectThemeMode", () {
+    test('should emits selected ThemeMode when using selectThemeMode', () {
+      // act
+      themeCubit.selectThemeMode(ThemeMode.light);
 
-    // act
-    themeCubit.toggleThemeMode();
+      // assert
+      expect(themeCubit.state, equals(ThemeMode.light));
+    });
 
-    // assert
-    expect(themeCubit.state, equals(ThemeMode.dark));
-  });
+    test('should saves state to storage on state change', () {
+      // act
+      themeCubit.selectThemeMode(ThemeMode.light);
 
-  test('should emits selected ThemeMode when using selectThemeMode', () {
-    // act
-    themeCubit.selectThemeMode(ThemeMode.light);
-
-    // assert
-    expect(themeCubit.state, equals(ThemeMode.light));
+      // assert
+      verify(
+        () => mockStorage.write('ThemeCubit', {
+          'theme_mode': ThemeMode.light.index,
+        }),
+      ).called(1);
+    });
   });
 
   test('should persists state correctly in storage', () {
     // arrange
-    when(() => mockStorage.read('ThemeCubit')).thenReturn({'theme_mode': ThemeMode.dark.index});
+    when(
+      () => mockStorage.read('ThemeCubit'),
+    ).thenReturn({'theme_mode': ThemeMode.dark.index});
     themeCubit = ThemeCubit();
 
     // assert
     expect(themeCubit.state, equals(ThemeMode.dark));
-  });
-
-  test('should saves state to storage on state change', () {
-    // act
-    themeCubit.selectThemeMode(ThemeMode.light);
-    
-    // assert
-    verify(() => mockStorage.write('ThemeCubit', {'theme_mode': ThemeMode.light.index})).called(1);
   });
 }
