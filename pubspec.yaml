@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
   get_it: ^8.0.3
   google_fonts: ^6.2.1
   hydrated_bloc: ^10.0.0

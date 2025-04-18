@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'core/shared/cubit/theme_cubit.dart';
 import 'core/theme/app_theme.dart';
@@ -26,6 +27,8 @@ class MainApp extends StatelessWidget {
       "Bungee Outline",
     );
     final MaterialTheme theme = MaterialTheme(textTheme);
+
+    FlutterNativeSplash.remove();
 
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
