@@ -8,11 +8,16 @@ import 'core/theme/text_theme.dart';
 import 'init_dependencies.dart';
 
 Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await initDependencies();
 
   runApp(
     BlocProvider(create: (context) => getIt<ThemeCubit>(), child: MainApp()),
   );
+
+  FlutterNativeSplash.remove();
 }
 
 class MainApp extends StatelessWidget {
