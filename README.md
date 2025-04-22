@@ -2,16 +2,8 @@
 
 ## Introduction
 
-**EN**
-```txt
-This project was carried out as part of our studies. Its aim is to introduce the concept of TPAM (Third Party Application Maintenance) & AM (Application Maintenance).
+This project was carried out as part of our studies. This application allows students to participate in modules/training sessions and submit work. While teachers can create modules and collect students' work for correction and grading. Its aim is to introduce the concept of TPAM (Third Party Application Maintenance) & AM (Application Maintenance).
 We have to develop part of the application and then exchange it with another group who has to finish it.
-```
-
-**FR**
-```txt
-Ce projet est a été réalisé dans le cadre de nos études. Son objectif est d'introduire les concepts de TMA (Tierce Maintenance Applicative) et de MA (Maintenance Applicative). Nous devons développer une partie de l'application, puis la transférer à une autre équipe qui la finalisera.
-```
 
 ## Database
 
