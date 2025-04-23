@@ -153,3 +153,7 @@ app.*.symbols
 
 # Autre
 .vscode
+
+# Environement
+.env*
+!.env.example
