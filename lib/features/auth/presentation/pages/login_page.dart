@@ -44,6 +44,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Spacer(),
                 TextField(
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.alternate_email),
@@ -52,6 +53,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
