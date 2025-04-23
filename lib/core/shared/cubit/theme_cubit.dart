@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class ThemeCubit extends HydratedCubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.system);
 
+  Brightness get systemBrightness =>
+      SchedulerBinding.instance.platformDispatcher.platformBrightness;
+
   void toggleThemeMode() {
-    emit(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+    switch (state) {
+      case ThemeMode.system:
+        if (systemBrightness == Brightness.light) {
+          return emit(ThemeMode.dark);
+        } else {
+          return emit(ThemeMode.light);
+        }
+
+      case ThemeMode.light:
+        return emit(ThemeMode.dark);
+
+      case ThemeMode.dark:
+        return emit(ThemeMode.light);
+    }
   }
 
   void selectThemeMode(ThemeMode themeMode) {
-    emit(themeMode);
+    return emit(themeMode);
   }
 
   @override
