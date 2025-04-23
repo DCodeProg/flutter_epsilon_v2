@@ -37,11 +37,12 @@ class MainApp extends StatelessWidget {
 
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
-        return MaterialApp(
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           theme: theme.light(),
           darkTheme: theme.dark(),
           themeMode: themeMode,
-          home: Scaffold(),
+          routerConfig: appRouter,
         );
       },
     );
