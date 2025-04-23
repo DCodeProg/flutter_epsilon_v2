@@ -8,6 +8,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/secrets/app_secrets.dart';
 import 'core/shared/cubit/theme_cubit.dart';
+import 'features/auth/data/datasources/auth_remote_datasource.dart';
+import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/auth/domain/repositories/auth_repository.dart';
+import 'features/auth/domain/usecases/login_with_password.dart';
+import 'features/auth/domain/usecases/register_new_user.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -31,4 +37,26 @@ Future<void> initDependencies() async {
   );
 
   getIt.registerLazySingleton(() => ThemeCubit());
+
+  initAuth();
+}
+
+void initAuth() {
+  getIt
+    // Datasource
+    ..registerFactory<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(getIt()),
+    )
+    // repositories
+    ..registerCachedFactory<AuthRepository>(() => AuthRepositoryImpl(getIt()))
+    // usecases
+    ..registerFactory<LoginWithPassword>(() => LoginWithPassword(getIt()))
+    ..registerFactory<RegisterNewUser>(() => RegisterNewUser(getIt()))
+    // bloc
+    ..registerLazySingleton<AuthBloc>(
+      () => AuthBloc(
+        loginWithEmailAndPassword: getIt(),
+        registerNewUser: getIt(),
+      ),
+    );
 }

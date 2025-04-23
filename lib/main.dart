@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_epsilon_v2/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'core/router/app_router.dart';
@@ -15,7 +16,13 @@ Future<void> main() async {
   await initDependencies();
 
   runApp(
-    BlocProvider(create: (context) => getIt<ThemeCubit>(), child: MainApp()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<ThemeCubit>()),
+        BlocProvider(create: (context) => getIt<AuthBloc>(),),
+      ],
+      child: MainApp(),
+    ),
   );
 
   FlutterNativeSplash.remove();
