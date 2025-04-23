@@ -32,9 +32,12 @@ class RegisterPage extends StatelessWidget {
         child: BlocSelector<AuthBloc, AuthState, AuthState>(
           selector: (state) {
             if (state is AuthFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text("Une erreur : ${state.message}")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Une erreur : ${state.message}")),
+              );
+            }
+            if (state is AuthSuccess) {
+              context.go('/home');
             }
             return state;
           },

@@ -30,7 +30,13 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       password: password,
     );
 
-    return UserModel.fromMap(response.user!.toJson());
+    final user = response.user!;
+    return UserModel(
+      id: user.id,
+      email: user.email!,
+      nom: user.userMetadata!['lastname'],
+      prenom: user.userMetadata!['firstname'],
+    );
   }
 
   @override

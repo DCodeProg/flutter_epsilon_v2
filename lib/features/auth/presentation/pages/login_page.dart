@@ -5,20 +5,37 @@ import 'package:flutter_epsilon_v2/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void loginUser() {
+      context.read<AuthBloc>().add(
+        AuthLoginWithEmailAndPasswordEvent(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text("Connexion")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocSelector<AuthBloc, AuthState, AuthState>(
           selector: (state) {
-            return state;
-            if (state == AuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Une erreur")));
+            if (state is AuthFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Une erreur : ${state.message}")),
+              );
             }
+            if (state is AuthSuccess) {
+              context.go('/home');
+            }
+            return state;
           },
           builder: (context, state) {
             return Column(
@@ -48,7 +65,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => loginUser(),
                   icon: Icon(Icons.login),
                   label: Text(
                     "Se connecter",

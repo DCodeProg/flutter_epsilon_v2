@@ -19,7 +19,7 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<ThemeCubit>()),
-        BlocProvider(create: (context) => getIt<AuthBloc>(),),
+        BlocProvider(create: (context) => getIt<AuthBloc>()),
       ],
       child: MainApp(),
     ),
