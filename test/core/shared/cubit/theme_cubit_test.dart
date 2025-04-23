@@ -51,6 +51,17 @@ void main() {
       expect(themeCubit.state, equals(ThemeMode.dark));
     });
 
+    test('should emits ThemeMode.dark when toggling from ThemeMode.system', () {
+      // arrange
+      themeCubit.emit(ThemeMode.system);
+
+      // act
+      themeCubit.toggleThemeMode();
+
+      // assert
+      expect(themeCubit.state, equals(ThemeMode.dark));
+    });
+
     test('should saves state to storage on state change', () {
       // arrange
       themeCubit.emit(ThemeMode.dark);
