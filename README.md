@@ -5,6 +5,26 @@
 This project was carried out as part of our studies. This application allows students to participate in modules/training sessions and submit work. While teachers can create modules and collect students' work for correction and grading. Its aim is to introduce the concept of TPAM (Third Party Application Maintenance) & AM (Application Maintenance).
 We have to develop part of the application and then exchange it with another group who has to finish it.
 
+## Installation
+
+Clone this repos
+```bash
+git clone https://github.com/DCodeProg/flutter_epsilon_v2.git
+cd flutter_epsilon_v2
+```
+
+Rename .env.exemple to .env and setup it.
+
+Install requirements dependencies
+```bash
+flutter pub get
+```
+
+Run it !
+```bash
+flutter run
+```
+
 ## Database
 
 ### UML
