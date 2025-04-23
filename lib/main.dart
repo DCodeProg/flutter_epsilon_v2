@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_epsilon_v2/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'core/router/app_router.dart';
+import 'core/shared/cubit/theme_cubit.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/text_theme.dart';
+import 'init_dependencies.dart';
+
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  await initDependencies();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<ThemeCubit>()),
+        BlocProvider(create: (context) => getIt<AuthBloc>(),),
+      ],
+      child: MainApp(),
+    ),
+  );
+
+  FlutterNativeSplash.remove();
 }
 
 class MainApp extends StatelessWidget {
@@ -9,12 +33,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    final textTheme = createTextTheme(
+      context,
+      "Noto Sans",
+      "Bungee",
+      "Bungee Outline",
+    );
+    final MaterialTheme theme = MaterialTheme(textTheme);
+
+    FlutterNativeSplash.remove();
+
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          theme: theme.light(),
+          darkTheme: theme.dark(),
+          themeMode: themeMode,
+          routerConfig: appRouter,
+        );
+      },
     );
   }
 }
